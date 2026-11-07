@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMS Santé et Culture</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0fdf4; color: #1e293b; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: auto; }
+        h1 { text-align: center; color: #059669; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        input, select, textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 5px; box-sizing: border-box; font-family: inherit; }
+        textarea { height: 100px; resize: vertical; }
+        button { background: #059669; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.2s; }
+        button:hover { background: #047857; }
+        .article { border-left: 5px solid #059669; padding-left: 15px; margin-bottom: 20px; }
+        .article.culture { border-left-color: #3b82f6; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; color: white; margin-bottom: 10px; }
+        .badge.sante { background: #059669; }
+        .badge.culture { background: #3b82f6; }
+        .date { font-size: 12px; color: #64748b; text-align: right; margin-top: 10px; }
+        .filters { text-align: center; margin-bottom: 20px; }
+        .filters a { margin: 0 10px; text-decoration: none; color: #059669; font-weight: bold; }
+        .filters a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 RMS Santé & Culture 🎭</h1>
+
+        <div class="card">
+            <h2>Publier un article</h2>
+            <form method="POST">
+                <input type="text" name="titre" placeholder="Titre de l'article" required>
+                <select name="categorie" required>
+                    <option value="Santé">Santé</option>
+                    <option value="Culture">Culture</option>
+                </select>
+                <textarea name="contenu" placeholder="Écrivez votre contenu ici..." required></textarea>
+                <button type="submit">Publier l'article</button>
+            </form>
+        </div>
+
+        <div class="filters">
+            <a href="/">Tout voir</a>
+            <a href="/?categorie=Santé">Santé</a>
+            <a href="/?categorie=Culture">Culture</a>
+        </div>
+
+        {% for article in articles %}
+            <div class="card article {% if article[2] == 'Culture' %}culture{% endif %}">
+                <span class="badge {% if article[2] == 'Santé' %}sante{% else %}culture{% endif %}">{{ article[2] }}</span>
+                <h2>{{ article[1] }}</h2>
+                <p>{{ article[3] }}</p>
+                <div class="date">Publié le {{ article[4] }}</div>
+            </div>
+        {% else %}
+            <div class="card" style="text-align: center; color: #64748b;">
+                Aucun article pour le moment. Soyez le premier à publier !
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
